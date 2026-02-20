@@ -1,109 +1,138 @@
-# PropertyListingAPI_Project_C#
+# Property Booking API
 
-This project is a full-featured Property Listing and Booking API built with ASP.NET Core. It was designed to streamline room booking, cancellation, and information retrieval for properties near universities, making it a perfect demonstration of practical software engineering skills and cloud deployment practices.
+## Overview
 
-# Overview
+A **RESTful Property Listing and Booking API** built with **ASP.NET Core**, designed to manage room listings, bookings, and cancellations for properties near universities.
 
-The Property Listing and Booking API provides a seamless way to manage room listings, book rooms, cancel bookings, calculate distances, and even retrieve weather information for property locations. The project also demonstrates the use of cloud hosting and integration with external services, making it an excellent example of a scalable and robust backend solution.
+The project integrates **external services** for distance calculation and weather data and is **deployed on an Azure Linux Virtual Machine**, demonstrating real-world backend development and cloud deployment practices.
 
-# Key Features
-Room Listings: Provides an endpoint to retrieve detailed property information, including location, price, and distance from nearby universities.
+---
 
-Room Booking and Cancellation: Features intuitive endpoints to book or cancel rooms using room IDs.
+## Key Features
 
-Distance Calculation: Integrates with the Open Source Routing Machine (OSRM) API to calculate the distance between properties and universities based on their GPS coordinates.
+- **Room Listings**
+  - Retrieve detailed property information including location, price, associated university, and distance
 
-Weather Integration: Fetches real-time weather data for property locations to enhance the user experience.
+- **Booking & Cancellation**
+  - Book and cancel rooms using unique room identifiers
+  - Track booked and canceled rooms via dedicated endpoints
 
-Cloud Deployment: The API is deployed on an Azure Linux Virtual Machine, demonstrating modern deployment practices.
+- **Distance Calculation**
+  - Integrates with the **OSRM API** to calculate distances between properties and universities using GPS coordinates
 
-# How It Works
-# Development
-The project was built using ASP.NET Core 6.0, leveraging C# for clean and efficient backend development.
+- **Weather Integration**
+  - Fetches real-time weather data for property locations via an external weather service
 
-RESTful API Design: The API follows standard RESTful principles, with clear endpoints for retrieving data, posting actions, and performing calculations.
+- **Cloud Deployment**
+  - Deployed on an **Azure Linux VM**, exposing the API publicly via a static IP
 
-JSON Serialization: Data is exchanged in JSON format, ensuring compatibility with modern client applications like web apps or mobile apps.
+---
 
-Struct and Serialization: A custom Room struct was used to model room data effectively, enabling serialization and deserialization of JSON responses.
-Integration with External Services
+## Architecture & Design
 
-# Distance Calculation:
-Using the OSRM API, the service calculates distances between room locations and universities. This is particularly useful for users looking to evaluate travel times.
+- **Framework:** ASP.NET Core 6.0 (C#)
+- **API Style:** RESTful architecture with clear resource-based endpoints
+- **Data Format:** JSON serialization for client compatibility
+- **Data Modeling:** Custom `Room` struct for structured data representation
 
-Example API call:
+The API is designed to be modular, extensible, and suitable for integration with web or mobile frontends.
 
-/api/Room/distance/{roomID}
-Calculates and returns the distance between the specified room and the associated university.
+---
 
-# Weather Information:
-Weather data is fetched from an external weather service, providing users with up-to-date environmental conditions at the room's location.
+## External Integrations
 
-Example API call:
+### Distance Calculation (OSRM API)
 
-/api/Room/weather/{roomID}
-Returns the current weather details for a specific room's location.
-Deployment
-The API was deployed on an Azure Linux Virtual Machine (VM). Key deployment details include:
+Calculates the distance between a property and its associated university based on GPS coordinates.
 
-Dotnet Runtime: The VM was set up with the necessary .NET runtime environment to host the application.
-
-File Transfer: The project was transferred to the VM using SCP, ensuring all necessary files (including the publish folder and related assets like the CSV data file) were available for deployment.
-
-Binding to Public IP: The API was configured to bind to 0.0.0.0 to make it accessible publicly via the Azure VM's static public IP address.
-API Endpoints
-Here’s a list of all the endpoints available in the API:
-
-# Room Management
-GET /api/Room
-Retrieves a list of all available rooms, including details such as city, university, price, and distance.
-
-GET /api/Room/bookedRooms
-Retrieves a list of all rooms that have been booked.
-
-GET /api/Room/canceledRooms
-Retrieves a list of rooms whose bookings have been canceled.
-
-# Booking and Cancellation
-POST /api/Room/book/{roomID}
-Books a room based on its unique room ID.
-
-POST /api/Room/cancel/{roomID}
-Cancels a booking for the specified room ID.
-
-# Calculations and Information
+**Example endpoint:**
 GET /api/Room/distance/{roomID}
-Calculates the distance between a room and the associated university using GPS coordinates.
 
+
+---
+
+### Weather Information
+
+Retrieves real-time weather data for the geographic location of a room.
+
+**Example endpoint:**
 GET /api/Room/weather/{roomID}
-Fetches weather details for the room's location.
 
-# Challenges and Solutions
-Handling External Dependencies
-OSRM and Weather APIs: The integration with OSRM for distance calculations and a weather API added real-world functionality but required careful handling of API responses and error handling to ensure reliability.
-Deployment on Azure VM
-Deploying on a Linux VM required configuring the server to expose the API publicly while ensuring it remained secure. The process involved:
 
-# Setting up the .NET runtime.
-Transferring files securely using SCP.
-Binding the API to 0.0.0.0 for public access.
-Testing endpoints thoroughly from both the VM and external clients.
-Skills Demonstrated
+---
 
-API Design: Designed and implemented a clean, scalable RESTful API.
+## API Endpoints
 
-Cloud Deployment: Deployed and tested the application in a live production-like environment.
+### Room Management
 
-Integration: Worked with external APIs for enhanced functionality (e.g., OSRM and weather services).
+- GET /api/Room
+  - Returns all available rooms with location, university, price, and distance data.
 
-Scalability Awareness: While the project is scalable by design, tools like Azure Monitor or JMeter can be used for load testing in the future.
-Future Improvements
+- GET /api/Room/bookedRooms
+  - Returns all booked rooms.
 
-# Scalability Testing:
-Scalability testing can be performed using tools like Azure Load Testing or JMeter to evaluate how the API handles high traffic.
+- GET /api/Room/canceledRooms
+  - Returns all canceled room bookings.
 
-# Additional Features:
-Adding authentication to secure the endpoints.
-Introducing filters for room listings (e.g., by price, distance, or city).
+---
 
-This project reflects a solid understanding of backend development, external API integration, and cloud deployment. It serves as a strong portfolio piece for showcasing skills in building and deploying real-world software solutions.
+### Booking & Cancellation
+
+- POST /api/Room/book/{roomID}
+  - Books a room using its unique ID.
+
+- POST /api/Room/cancel/{roomID}
+  - Cancels a booking for the specified room.
+
+---
+
+### Calculations & Information
+
+- GET /api/Room/distance/{roomID}
+  - Calculates the distance between a room and its university.
+
+- GET /api/Room/weather/{roomID}
+  - Fetches weather data for the room’s location.
+
+---
+
+## Deployment
+
+The API is deployed on an **Azure Linux Virtual Machine**.
+
+Deployment steps included:
+- Installing the required **.NET runtime**
+- Publishing the application locally
+- Transferring files to the VM using **SCP**
+- Binding the API to `0.0.0.0` for public accessibility
+- Verifying endpoint availability from external clients
+
+---
+
+## Challenges & Solutions
+
+### External API Reliability
+Integrating OSRM and weather services required careful handling of API responses, timeouts, and error states to ensure stability.
+
+### Cloud Deployment
+Deploying to a Linux VM required configuring networking, runtime dependencies, and public access while maintaining application reliability.
+
+---
+
+## Skills Demonstrated
+
+- RESTful API design and implementation
+- ASP.NET Core backend development
+- External API integration
+- Cloud deployment on Azure (Linux VM)
+- JSON serialization and structured data modeling
+- Real-world problem solving and system design
+
+---
+
+## Future Improvements
+
+- Add authentication and authorization
+- Introduce filtering and sorting (price, distance, city)
+- Add persistence with a database (e.g. PostgreSQL or SQL Server)
+- Perform load testing using tools like Azure Load Testing or JMeter
